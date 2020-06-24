@@ -8,7 +8,7 @@
 
 ### :hand: Prerequisites
 
-- [Node.js](https://nodejs.org/en/)
+- [Node.js (LTS)](https://nodejs.org/en/)
 
 ## :notebook: Running the project
 
