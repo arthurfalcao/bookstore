@@ -7,7 +7,7 @@ const endpoint = process.env.REACT_APP_API_URL;
  * @param bookId Id do livro que iremos consultar
  */
 export const getBookAuthorApi = async (bookId: string) => {
-  const response = await fetch(`${endpoint}?bookId=${bookId}`);
+  const response = await fetch(`${endpoint}/getBookAuthor?bookId=${bookId}`);
   const json = await response.json();
   return json.author;
 };
