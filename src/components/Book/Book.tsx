@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { IFirestoreBook } from "../../services/types";
 import { getBookAuthorApi, getBookImageApi } from "../../services/api";
+import { ReactComponent as BookPlaceholder } from '../../assets/placeholder.svg';
 
 import * as S from "./styled";
 
@@ -31,6 +32,7 @@ function useBookImage(bookId: string) {
     image,
     isLoading: status === "idle" || status === "pending",
     isResolved: status === "resolved",
+    isRejected: status === "rejected",
   };
 }
 
@@ -43,7 +45,7 @@ interface IBookProps extends IFirestoreBook {
  */
 const Book: React.FC<IBookProps> = ({ id, name, price }) => {
   const [author, setAuthor] = useState("");
-  const { image, isLoading, isResolved } = useBookImage(id);
+  const { image, isLoading, isResolved, isRejected } = useBookImage(id);
 
   const formattedPrice = useMemo(() => {
     if (!price) return "";
@@ -71,7 +73,13 @@ const Book: React.FC<IBookProps> = ({ id, name, price }) => {
           </S.BookImageLoading>
         )}
 
-        {isResolved && <S.BookImage image={image} />}
+        {isRejected && (
+          <S.BookImageLoading>
+            <BookPlaceholder title={name} />
+          </S.BookImageLoading>
+        )}
+
+        {isResolved && <S.BookImage image={image} title={name} />}
 
         <S.BookContent>
           <S.BookTitle gutterBottom>{name}</S.BookTitle>
