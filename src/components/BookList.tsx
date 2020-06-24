@@ -56,7 +56,7 @@ const BookList: React.FC = () => {
       <Box p={2}>
         <Grid container spacing={2}>
           {Object.entries(books).map(([key, value]) => (
-            <Grid sm={6} xs={6} md={2} lg={3} item key={key}>
+            <Grid sm={6} xs={6} md={4} lg={3} item key={key}>
               <Book id={key} {...value} />
             </Grid>
           ))}
