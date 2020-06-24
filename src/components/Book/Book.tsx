@@ -1,12 +1,38 @@
 import React, { useState, useEffect, useMemo } from "react";
 
-import Card from "@material-ui/core/Card";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 
 import { IFirestoreBook } from "../../services/types";
-import { getBookAuthorApi } from "../../services/api";
+import { getBookAuthorApi, getBookImageApi } from "../../services/api";
 
-import * as S from './styled';
+import * as S from "./styled";
+
+function useBookImage(bookId: string) {
+  const [image, setImage] = useState("");
+  const [status, setStatus] = useState("idle");
+
+  useEffect(() => {
+    const fetchBookImage = async () => {
+      try {
+        setStatus("pending");
+        const imageData = await getBookImageApi(bookId);
+        setImage(imageData);
+        setStatus("resolved");
+      } catch (err) {
+        setStatus("rejected");
+      }
+    };
+
+    if (bookId) fetchBookImage();
+  }, [bookId]);
+
+  return {
+    image,
+    isLoading: status === "idle" || status === "pending",
+    isResolved: status === "resolved",
+  };
+}
 
 interface IBookProps extends IFirestoreBook {
   id: string;
@@ -16,7 +42,8 @@ interface IBookProps extends IFirestoreBook {
  * Livro a obtido do firestore
  */
 const Book: React.FC<IBookProps> = ({ id, name, price }) => {
-  const [author, setAuthor] = useState('');
+  const [author, setAuthor] = useState("");
+  const { image, isLoading, isResolved } = useBookImage(id);
 
   const formattedPrice = useMemo(() => {
     if (!price) return "";
@@ -36,22 +63,32 @@ const Book: React.FC<IBookProps> = ({ id, name, price }) => {
   }, [id]);
 
   return (
-    <Card>
-      <S.BookContent>
-        <S.BookTitle gutterBottom>{name}</S.BookTitle>
-        {author && (
-          <Typography color="textSecondary" variant="caption" component="p">
-            Autor(a): {author}
-          </Typography>
+    <S.BookWrapper>
+      <S.BookActionArea>
+        {isLoading && (
+          <S.BookImageLoading>
+            <CircularProgress />
+          </S.BookImageLoading>
         )}
 
-        {price && (
-          <Typography color="textSecondary" variant="caption" component="p">
-            Preço: {formattedPrice}
-          </Typography>
-        )}
-      </S.BookContent>
-    </Card>
+        {isResolved && <S.BookImage image={image} />}
+
+        <S.BookContent>
+          <S.BookTitle gutterBottom>{name}</S.BookTitle>
+          {author && (
+            <Typography color="textSecondary" variant="caption" component="p">
+              Autor(a): {author}
+            </Typography>
+          )}
+
+          {price && (
+            <Typography color="textSecondary" variant="caption" component="p">
+              Preço: {formattedPrice}
+            </Typography>
+          )}
+        </S.BookContent>
+      </S.BookActionArea>
+    </S.BookWrapper>
   );
 };
 
