@@ -14,6 +14,7 @@ export const BookActionArea = styled(CardActionArea)({
 });
 
 export const BookContent = styled(CardContent)({
+  height: "100%",
   padding: 16,
 });
 
