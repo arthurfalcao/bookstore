@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { IFirestoreBook } from "../../services/types";
 import { getBookAuthorApi, getBookImageApi } from "../../services/api";
-import { ReactComponent as BookPlaceholder } from '../../assets/placeholder.svg';
+import { ReactComponent as BookPlaceholder } from "../../assets/placeholder.svg";
 
 import * as S from "./styled";
 
@@ -83,17 +83,13 @@ const Book: React.FC<IBookProps> = ({ id, name, price }) => {
 
         <S.BookContent>
           <S.BookTitle gutterBottom>{name}</S.BookTitle>
-          {author && (
-            <Typography color="textSecondary" variant="caption" component="p">
-              Autor(a): {author}
-            </Typography>
-          )}
+          <Typography color="textSecondary" variant="caption" component="p">
+            Autor(a): {author || "Desconhecido"}
+          </Typography>
 
-          {price && (
-            <Typography color="textSecondary" variant="caption" component="p">
-              Preço: {formattedPrice}
-            </Typography>
-          )}
+          <Typography color="textSecondary" variant="caption" component="p">
+            {price ? `Preço: ${formattedPrice}` : "Gratuito"}
+          </Typography>
         </S.BookContent>
       </S.BookActionArea>
     </S.BookWrapper>
