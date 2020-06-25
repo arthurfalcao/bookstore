@@ -10,7 +10,7 @@
 
 - [Node.js (LTS)](https://nodejs.org/en/)
 
-## :notebook: Running the project
+### :notebook: Running the project
 
 ```bash
 # Clone this repository
