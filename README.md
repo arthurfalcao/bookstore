@@ -1,5 +1,7 @@
 # Bookstore
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/239cc8a4-852d-4e1e-a52c-d1d6cd438b24/deploy-status)](https://app.netlify.com/sites/bookstore-efc55b/deploys)
+
 ## :rocket: Technologies
 
 - [React](https://reactjs.org/)
